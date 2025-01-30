@@ -8,6 +8,23 @@ async function main() {
       message: 'Hello, Prisma!',
     },
   });
+
+  const salon = await prisma.salon.create({
+    data: {
+      name: 'Salon 1',
+      location: 'Location 1'
+    }
+  })
+
+  if (!salon) return
+
+  await prisma.service.create({
+    data: {
+      name: 'Service 1',
+      price: 23.5000,
+      salonId: salon.id
+    }
+  })
 }
 
 main()

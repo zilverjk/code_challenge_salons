@@ -1,10 +1,10 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
+import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
+import { Appointment } from '../models/appointment.model';
 import { PrismaClient } from '@prisma/client';
-import { Appointment } from './models/appointment.model';
-import { CreateAppointment, UpdateAppointment } from './dto/appointment.dto';
+import { CreateAppointment, UpdateAppointment } from '../dto/appointment.dto';
 
 @Resolver(() => Appointment)
-export class AppResolver {
+export class AppointmentResolver {
   constructor(private prisma: PrismaClient) {}
 
   @Query(() => [Appointment])
@@ -46,7 +46,7 @@ export class AppResolver {
   }
 
   @Mutation(() => Appointment)
-  async deleteAppointment(@Args('id', { type: () => Int }) id: number) {
+  async deleteAppointment(@Args('id') id: number) {
     return this.prisma.appointment.delete({
       where: { id },
       include: {
@@ -56,4 +56,3 @@ export class AppResolver {
     });
   }
 }
-

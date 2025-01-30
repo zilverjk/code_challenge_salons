@@ -1,42 +1,40 @@
-import React from 'react';
-import { useQuery, gql } from '@apollo/client';
+import { useState } from 'react';
+import { Container, Row, Col, Button } from 'react-bootstrap';
+import AppointmentList from './AppointmentList';
+import AppointmentForm from './AppointmentForm';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Badge from 'react-bootstrap/Badge';
-import './App.css'; // Import the custom CSS file for styling
-
-// Define the type for the query response
-interface HelloResponse {
-  hello: string;
-}
-
-// GraphQL query
-const HELLO_QUERY = gql`
-  query {
-    hello
-  }
-`;
 
 function App() {
-  const { loading, error, data } = useQuery<HelloResponse>(HELLO_QUERY);
-
-  // Determine the content of the badge
-  let badgeContent: string;
-  if (loading) {
-    badgeContent = 'Loading...'; // Show "Loading..." while the query is in progress
-  } else if (error) {
-    badgeContent = `Error: ${error.message}`; // Show the error message if there is an error
-  } else {
-    badgeContent = data?.hello || 'No data'; // Show the result, or "No data" if `hello` is null/undefined
-  }
+  const [currentView, setCurrentView] = useState<'list' | 'form'>('list');
 
   return (
-    <div className="App">
-      <div className="content">
-        <Badge className="p-3">{badgeContent}</Badge>
-      </div>
-    </div>
+    <Container className="py-4">
+      <h1 className="text-center mb-4">Salon Appointments</h1>
+      
+      <Row className="mb-4">
+        <Col className="d-flex justify-content-center gap-3">
+          <Button 
+            variant={currentView === 'list' ? 'primary' : 'outline-primary'}
+            onClick={() => setCurrentView('list')}
+          >
+            View Appointments
+          </Button>
+          <Button 
+            variant={currentView === 'form' ? 'primary' : 'outline-primary'}
+            onClick={() => setCurrentView('form')}
+          >
+            Create Appointment
+          </Button>
+        </Col>
+      </Row>
+
+      <Row>
+        <Col>
+          {currentView === 'list' ? <AppointmentList /> : <AppointmentForm />}
+        </Col>
+      </Row>
+    </Container>
   );
 }
 
 export default App;
-

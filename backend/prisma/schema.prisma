@@ -13,9 +13,42 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model HelloWorld{
-  id    Int    @id @default(autoincrement())
+model HelloWorld {
+  id      Int    @id @default(autoincrement())
   message String
 
   @@map("hello_world")
+}
+
+model Salon {
+  id          Int           @id @default(autoincrement())
+  name        String
+  location    String
+  service     Service[]
+  appointment Appointment[]
+
+  @@map("salon")
+}
+
+model Service {
+  id          Int           @id @default(autoincrement())
+  name        String
+  price       Decimal       @db.Decimal(16, 4)
+  salonId     Int
+  salon       Salon         @relation(fields: [salonId], references: [id])
+  Appointment Appointment[]
+
+  @@map("service")
+}
+
+model Appointment {
+  id              Int      @id @default(autoincrement())
+  salonId         Int
+  salon           Salon    @relation(fields: [salonId], references: [id])
+  customerName    String
+  serviceId       Int
+  service         Service  @relation(fields: [serviceId], references: [id])
+  appointmentTime DateTime @db.Timestamp(6)
+
+  @@map("appointment")
 }
