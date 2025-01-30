@@ -44,3 +44,20 @@ Features:
  - [ ] Include a README file with:
    - [ ] Setup instructions.
    - [ ] Brief explanation of your approach.
+
+
+# Salon Appointments Management System
+
+Simple appointment management system that allows creating and viewing salon appointments.
+
+## Setup Instructions
+
+Setup database and start:
+```bash
+npx prisma migrate 
+npx prisma db seed
+```
+
+## About the Project
+
+Built a fullstack application using NestJS and React that handles salon appointments through a GraphQL API. The backend uses Prisma with PostgreSQL for data storage, while the frontend implements a simple interface using React Bootstrap for viewing and creating appointments.
